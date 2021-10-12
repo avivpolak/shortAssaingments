@@ -1,8 +1,9 @@
+debugger;
 let body = document.getElementById("body");
 function changeColor(time, color, callback, reject) {
     let randomNum = Math.floor(Math.random() * 10);
 
-    if (randomNum>5) {
+    if (true) {
         setTimeout(() => {
             body.style.backgroundColor = color;
             callback();
