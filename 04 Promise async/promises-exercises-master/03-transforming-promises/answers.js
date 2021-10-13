@@ -24,7 +24,15 @@ function mapPromise(promise, transformer) {
  * @returns {Promise<number>}
  */
 function squarePromise(numberPromise) {
-    return numberPromise.then();
+    return numberPromise.then((res) => {
+        return new Promise((resolve, reject) => {
+            if (!isNaN(res)) {
+                resolve(Math.pow(res, 2));
+            } else if (typeof res === "string") {
+                reject(`Cannot convert '${res}' to a number!`);
+            }
+        });
+    });
 }
 
 /**
