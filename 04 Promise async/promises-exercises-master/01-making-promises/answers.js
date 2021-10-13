@@ -5,8 +5,9 @@
  * @returns {Promise<3>}
  */
 function makePromiseResolveWith3() {
-    return new Promise().resolve(3);
-    /* IMPLEMENT ME! */
+    return new Promise((resolve, reject) => {
+        resolve(3);
+    });
 }
 
 /**
