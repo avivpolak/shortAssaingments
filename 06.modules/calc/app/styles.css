@@ -106,3 +106,10 @@ h1 {
 .top-margin {
     margin-top: 4px;
 }
+.pressed {
+    background-color: darkgray;
+}
+#mainResult {
+    height: 90px;
+    font-size: 90px;
+}
