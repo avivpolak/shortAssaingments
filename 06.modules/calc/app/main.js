@@ -4,9 +4,31 @@ import "./styles.css";
 import { add, sub, divide, multiply, equals } from "./helpers/math";
 import { state } from "./helpers/state";
 
-document.getElementById("calc").addEventListener("click", handleclick);
+document.getElementById("calc").addEventListener("click", handleClick);
+function handleAction(action) {
+    switch (action) {
+        case "add":
+            state.action = add;
+            break;
+        case "sub":
+            state.action = sub;
+            break;
+        case "mult":
+            state.action = multiply;
+            break;
+        case "div":
+            state.action = divide;
+            break;
+    }
+    document.getElementById(action).classList.toggle("pressed");
+    document.getElementById("mainResult").value =
+        document.getElementById("result").value;
+    document.getElementById("result").value = "";
+    removePressed(action);
+    state.flag = "n2";
+}
 
-function handleclick(e) {
+function handleClick(e) {
     const target = e.target.value;
     if (!state.action) {
         state.flag = "n1";
@@ -16,35 +38,16 @@ function handleclick(e) {
         state[state.flag] = parseFloat(document.getElementById("result").value);
     }
     if ("+".includes(target)) {
-        state.action = add;
-        document.getElementById("add").classList.toggle("pressed");
-        document.getElementById("mainResult").value =
-            document.getElementById("result").value;
-        document.getElementById("result").value = "";
-
-        removePressed("add");
-        state.flag = "n2";
+        handleAction("add");
     }
     if ("-".includes(target)) {
-        state.action = sub;
-        document.getElementById("sub").classList.toggle("pressed");
-        document.getElementById("result").value = "";
-        removePressed("sub");
-        state.flag = "n2";
+        handleAction("sub");
     }
     if ("/".includes(target)) {
-        state.action = divide;
-        document.getElementById("div").classList.toggle("pressed");
-        document.getElementById("result").value = "";
-        removePressed("div");
-        state.flag = "n2";
+        handleAction("div");
     }
     if ("X".includes(target)) {
-        state.action = multiply;
-        document.getElementById("mult").classList.toggle("pressed");
-        document.getElementById("result").value = "";
-        removePressed("mult");
-        state.flag = "n2";
+        handleAction("mult");
     }
     if ("=".includes(target)) {
         if (!state.action) {
