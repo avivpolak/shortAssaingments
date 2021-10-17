@@ -3,4 +3,5 @@ export let state = {
     n2: "",
     action: "",
     flag: "n1",
+    result: "",
 };

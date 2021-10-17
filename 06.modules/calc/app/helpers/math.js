@@ -11,5 +11,5 @@ export function divide(n1, n2) {
     return n1 / n2;
 }
 export function equals(n1, n2, callback) {
-    return callback(n1, n2);
+    return parseFloat(callback(n1, n2).toFixed(2));
 }

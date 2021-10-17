@@ -16,28 +16,31 @@ function handleclick(e) {
         state[state.flag] = parseFloat(document.getElementById("result").value);
     }
     if ("+".includes(target)) {
-        state.action = (a, b) => a + b;
+        state.action = add;
         document.getElementById("add").classList.toggle("pressed");
+        document.getElementById("mainResult").value =
+            document.getElementById("result").value;
         document.getElementById("result").value = "";
+
         removePressed("add");
         state.flag = "n2";
     }
     if ("-".includes(target)) {
-        state.action = (a, b) => a - b;
+        state.action = sub;
         document.getElementById("sub").classList.toggle("pressed");
         document.getElementById("result").value = "";
         removePressed("sub");
         state.flag = "n2";
     }
     if ("/".includes(target)) {
-        state.action = (a, b) => a / b;
+        state.action = divide;
         document.getElementById("div").classList.toggle("pressed");
         document.getElementById("result").value = "";
         removePressed("div");
         state.flag = "n2";
     }
     if ("X".includes(target)) {
-        state.action = (a, b) => a * b;
+        state.action = multiply;
         document.getElementById("mult").classList.toggle("pressed");
         document.getElementById("result").value = "";
         removePressed("mult");
@@ -48,14 +51,51 @@ function handleclick(e) {
             document.getElementById("mainResult").value = "choose action";
             return;
         }
+        let actionSymbol;
+        switch (state.action) {
+            case sub:
+                actionSymbol = "-";
+                break;
+            case add:
+                actionSymbol = "+";
+                break;
+            case multiply:
+                actionSymbol = "X";
+                break;
+            case divide:
+                actionSymbol = "/";
+                break;
+        }
         let result = equals(state.n1, state.n2, state.action);
         document.getElementById("result").value = "";
-        document.getElementById("mainResult").value = result;
+        state.result = result;
+        document.getElementById("mainResult").value =
+            state.n1 +
+            " " +
+            actionSymbol +
+            " " +
+            state.n2 +
+            " = " +
+            state.result;
+        state.n1 = result;
         removePressed();
         state.action = null;
-        state.n1 = result;
+
         state.n2 = 0;
         console.log(state);
+    }
+    if ("Del".includes(target)) {
+        let str = document.getElementById("result").value.toString();
+        if (str.length > 1) {
+            let newNum = parseFloat(str.substring(0, str.length - 1));
+            document.getElementById("result").value = newNum;
+            state[state.flag] = newNum;
+        }
+        if (str.length === 1) {
+            let newNum = 0;
+            document.getElementById("result").value = newNum;
+            state[state.flag] = newNum;
+        }
     }
 }
 function removePressed(action) {
