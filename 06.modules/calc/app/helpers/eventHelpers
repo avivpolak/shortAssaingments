@@ -1,6 +1,16 @@
 import { state } from "./state";
 import { add, sub, divide, multiply, equals } from "./math";
+
 export function handleAction(action) {
+    attachMathFunc(action);
+    document.getElementById(action).classList.toggle("pressed");
+    document.getElementById("mainResult").value =
+        document.getElementById("result").value;
+    document.getElementById("result").value = "";
+    removePressed(action);
+    state.flag = "n2";
+}
+function attachMathFunc(action) {
     switch (action) {
         case "add":
             state.action = add;
@@ -15,56 +25,61 @@ export function handleAction(action) {
             state.action = divide;
             break;
     }
-    document.getElementById(action).classList.toggle("pressed");
-    document.getElementById("mainResult").value =
-        document.getElementById("result").value;
-    document.getElementById("result").value = "";
-    removePressed(action);
-    state.flag = "n2";
 }
 export function handleEqual() {
     if (!state.action) {
         document.getElementById("mainResult").value = "choose action";
         return;
     }
-    let actionSymbol;
-    switch (state.action) {
-        case sub:
-            actionSymbol = "-";
-            break;
-        case add:
-            actionSymbol = "+";
-            break;
-        case multiply:
-            actionSymbol = "X";
-            break;
-        case divide:
-            actionSymbol = "/";
-            break;
-    }
     let result = equals(state.n1, state.n2, state.action);
-    document.getElementById("result").value = "";
-    state.result = result;
-    document.getElementById("mainResult").value =
-        state.n1 + " " + actionSymbol + " " + state.n2 + " = " + state.result;
-    state.n1 = result;
+    updateResult(result);
+    prepareForNext(result);
     removePressed();
+}
+function prepareForNext(result) {
+    state.n1 = result;
     state.action = null;
     state.n2 = 0;
 }
+function GetActionSymbol() {
+    switch (state.action) {
+        case sub:
+            return "-";
+        case add:
+            return "+";
+
+        case multiply:
+            return "X";
+
+        case divide:
+            return "/";
+    }
+}
+function updateResult(result) {
+    document.getElementById("result").value = "";
+    state.result = result;
+    document.getElementById("mainResult").value =
+        state.n1 +
+        " " +
+        GetActionSymbol() +
+        " " +
+        state.n2 +
+        " = " +
+        state.result;
+}
+function DelLast(str) {
+    let newNum = parseFloat(str.substring(0, str.length - 1));
+    document.getElementById("result").value = newNum;
+    state[state.flag] = newNum;
+}
+function zero() {
+    let newNum = 0;
+    document.getElementById("result").value = newNum;
+    state[state.flag] = newNum;
+}
 export function handleDel() {
     let str = document.getElementById("result").value.toString();
-    let newNum;
-    if (str.length > 1) {
-        newNum = parseFloat(str.substring(0, str.length - 1));
-        document.getElementById("result").value = newNum;
-        state[state.flag] = newNum;
-    }
-    if (str.length === 1) {
-        newNum = 0;
-        document.getElementById("result").value = newNum;
-        state[state.flag] = newNum;
-    }
+    str.length > 1 ? DelLast(str) : zero();
 }
 export function handleNum(target) {
     document.getElementById("result").value += target;
