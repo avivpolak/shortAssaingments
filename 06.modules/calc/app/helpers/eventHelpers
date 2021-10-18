@@ -73,6 +73,7 @@ function DelLast(str) {
     state[state.flag] = newNum;
 }
 function zero() {
+    //makes the little line zero
     let newNum = 0;
     document.getElementById("result").value = newNum;
     state[state.flag] = newNum;

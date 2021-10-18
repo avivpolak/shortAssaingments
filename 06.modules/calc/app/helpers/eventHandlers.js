@@ -6,6 +6,8 @@ import {
 } from "./eventHelpers";
 import { state } from "./state";
 
+document.getElementById("calc").addEventListener("click", handleClick);
+
 export function handleClick(e) {
     const target = e.target.value;
     if (!state.action) {
