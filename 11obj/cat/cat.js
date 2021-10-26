@@ -1,73 +1,74 @@
 class cat {
-    constructor(tiredness, hunger, lonliness, happiness) {
+    constructor(tiredness, hunger, lonliness, happiness, name) {
+        this.name = name;
         this.tiredness = tiredness;
         this.hunger = hunger;
         this.lonliness = lonliness;
         this.happiness = happiness;
     }
 
-    feed = () => {
+    feed() {
         this.tiredness++;
         this.hunger = 0;
         this.lonliness--;
         this.happiness += 3;
 
         return this;
-    };
+    }
 
-    hug = () => {
+    hug() {
         this.tiredness -= 2;
         this.lonliness -= 4;
         this.happiness += 3;
 
         return this;
-    };
+    }
 
-    play = () => {
+    play() {
         this.tiredness--;
         this.hunger += 2;
         this.lonliness -= 5;
         this.happiness += 3;
 
         return this;
-    };
+    }
 
-    catnip = () => {
+    catnip() {
         this.tiredness -= 4;
         this.hunger += 2;
         this.lonliness = 0;
         this.happiness += 5;
 
         return this;
-    };
+    }
 
-    lazer = () => {
+    lazer() {
         this.tiredness -= 2;
         this.hunger++;
         this.lonliness -= 2;
         this.happiness += 2;
 
         return this;
-    };
+    }
 
-    dog = () => {
+    dog() {
         this.tiredness = 0;
         this.hunger += 9;
         this.lonliness -= 3;
         this.happiness -= 6;
 
         return this;
-    };
+    }
 
-    pet = () => {
+    pet() {
         this.tiredness = 2;
         this.lonliness -= 5;
         this.happiness += 5;
 
         return this;
-    };
+    }
 
-    treat = () => {
+    treat() {
         this.hunger -= 1;
         this.lonliness -= 3;
         this.happiness += 5;
@@ -76,7 +77,7 @@ class cat {
         document.getElementById("lonliness").innerText = this.lonliness;
         document.getElementById("happiness").innerText = this.happiness;
         return this;
-    };
+    }
     getTiredness() {
         return this.tiredness;
     }
@@ -90,44 +91,47 @@ class cat {
     getHappiness() {
         return this.happiness;
     }
+    getName() {
+        return this.name;
+    }
 }
 
 const handlefeed = () => {
-    mycat.feed();
-    render(mycat);
+    focusedCat.feed();
+    render(focusedCat);
 };
 const handlehug = () => {
-    mycat.hug();
-    render(mycat);
+    focusedCat.hug();
+    render(focusedCat);
 };
 
 const handleplay = () => {
-    mycat.play();
-    render(mycat);
+    focusedCat.play();
+    render(focusedCat);
 };
 
 const handlecatnip = () => {
-    mycat.catnip();
-    render(mycat);
+    focusedCat.catnip();
+    render(focusedCat);
 };
 
 const handlelazer = () => {
-    mycat.lazer();
-    render(mycat);
+    focusedCat.lazer();
+    render(focusedCat);
 };
 
 const handledog = () => {
-    mycat.dog();
-    render(mycat);
+    focusedCat.dog();
+    render(focusedCat);
 };
 const handlepet = () => {
-    mycat.pet();
-    render(mycat);
+    focusedCat.pet();
+    render(focusedCat);
 };
 
 const handletreat = () => {
-    mycat.treat();
-    render(mycat);
+    focusedCat.treat();
+    render(focusedCat);
 };
 function render(cat) {
     document.getElementById("tiredness").innerText = cat.getTiredness();
@@ -136,7 +140,8 @@ function render(cat) {
     document.getElementById("happiness").innerText = cat.getHappiness();
 }
 
-let mycat = new cat(0, 0, 0, 0);
+let focusedCat = null;
+
 document.getElementById("feed").addEventListener("click", handlefeed);
 document.getElementById("hug").addEventListener("click", handlehug);
 document.getElementById("play").addEventListener("click", handleplay);
@@ -145,3 +150,37 @@ document.getElementById("lazer").addEventListener("click", handlelazer);
 document.getElementById("dog").addEventListener("click", handledog);
 document.getElementById("pet").addEventListener("click", handlepet);
 document.getElementById("treat").addEventListener("click", handletreat);
+
+let cats = [];
+function addCat(name) {
+    let newcat = new cat(0, 0, 0, 0, name);
+    cats.push(newcat);
+}
+
+function handleAddCat() {
+    addCat(document.getElementById("nameInput").value);
+    renderCatList();
+}
+
+document.getElementById("add").addEventListener("click", handleAddCat);
+
+function setCat() {
+    //console.log(document.getElementById("cats").value);
+    focusedCat = getCatFromList(document.getElementById("cats").value);
+    render(focusedCat);
+    document.getElementById("title").innerHTML = focusedCat.getName();
+}
+
+function renderCatList() {
+    document.getElementById("cats").innerHTML = "";
+    for (let cat of cats) {
+        let option = document.createElement("option");
+        option.append(cat.getName());
+        document.getElementById("cats").append(option);
+    }
+}
+function getCatFromList(name) {
+    for (let cat of cats) {
+        if (cat.getName() === name) return cat;
+    }
+}
