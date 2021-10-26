@@ -184,3 +184,6 @@ function getCatFromList(name) {
         if (cat.getName() === name) return cat;
     }
 }
+
+let cat1 = new cat();
+console.log(Object.getPrototypeOf("cat1"));
