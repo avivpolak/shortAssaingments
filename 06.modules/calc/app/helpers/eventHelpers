@@ -1,0 +1,94 @@
+import { state } from "./state";
+import { add, sub, divide, multiply, equals } from "./math";
+
+export function handleAction(action) {
+    attachMathFunc(action);
+    document.getElementById(action).classList.toggle("pressed");
+    document.getElementById("mainResult").value =
+        document.getElementById("result").value;
+    document.getElementById("result").value = "";
+    removePressed(action);
+    state.flag = "n2";
+}
+function attachMathFunc(action) {
+    switch (action) {
+        case "add":
+            state.action = add;
+            break;
+        case "sub":
+            state.action = sub;
+            break;
+        case "mult":
+            state.action = multiply;
+            break;
+        case "div":
+            state.action = divide;
+            break;
+    }
+}
+export function handleEqual() {
+    if (!state.action) {
+        document.getElementById("mainResult").value = "choose action";
+        return;
+    }
+    let result = equals(state.n1, state.n2, state.action);
+    updateResult(result);
+    prepareForNext(result);
+    removePressed();
+}
+function prepareForNext(result) {
+    state.n1 = result;
+    state.action = null;
+    state.n2 = 0;
+}
+function GetActionSymbol() {
+    switch (state.action) {
+        case sub:
+            return "-";
+        case add:
+            return "+";
+
+        case multiply:
+            return "X";
+
+        case divide:
+            return "/";
+    }
+}
+function updateResult(result) {
+    document.getElementById("result").value = "";
+    state.result = result;
+    document.getElementById("mainResult").value =
+        state.n1 +
+        " " +
+        GetActionSymbol() +
+        " " +
+        state.n2 +
+        " = " +
+        state.result;
+}
+function DelLast(str) {
+    let newNum = parseFloat(str.substring(0, str.length - 1));
+    document.getElementById("result").value = newNum;
+    state[state.flag] = newNum;
+}
+function zero() {
+    //makes the little line zero
+    let newNum = 0;
+    document.getElementById("result").value = newNum;
+    state[state.flag] = newNum;
+}
+export function handleDel() {
+    let str = document.getElementById("result").value.toString();
+    str.length > 1 ? DelLast(str) : zero();
+}
+export function handleNum(target) {
+    document.getElementById("result").value += target;
+    state[state.flag] = parseFloat(document.getElementById("result").value);
+}
+
+function removePressed(action) {
+    for (let elem of document.getElementsByTagName("input")) {
+        if (elem.id !== action) elem.classList.remove("pressed");
+    }
+}

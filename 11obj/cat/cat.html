@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="./cat.js" defer></script>
+    </head>
+    <body>
+        <h1 id="title"></h1>
+        <div id="add">
+            <input type="text" id="nameInput" />
+            <button id="add">add</button>
+        </div>
+        <div>
+            <label for="cats">Choose cat:</label>
+            <select id="cats" class="select" onchange="setCat()"></select>
+        </div>
+        <div id="actions">
+            <button id="feed">feed</button>
+            <button id="hug">hug</button>
+            <button id="play">play</button>
+            <button id="catnip">catnip</button>
+            <button id="lazer">lazer</button>
+            <button id="dog">dog</button>
+            <button id="pet">pet</button>
+            <button id="treat">threat</button>
+        </div>
+        <div id="info">
+            <label for="tiredness">tiredness</label>
+            <div id="tiredness"></div>
+            <label for="hunger">hunger</label>
+            <div id="hunger"></div>
+            <label for="lonliness">lonliness</label>
+            <div id="lonliness"></div>
+            <label for="happiness">happiness</label>
+            <div id="happiness"></div>
+        </div>
+    </body>
+</html>
